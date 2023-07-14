@@ -1,0 +1,20 @@
+{
+    "name": "flourish/flourish-woocommerce-plugin",
+    "description": "A WooCommerce plugin for your Flourish data.",
+    "type": "wordpress-plugin",
+    "license": "Copyright",
+    "authors": [
+        {
+            "name": "David Drake",
+            "email": "ddrake@flourishsoftware.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "FlourishWooCommercePlugin\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0"
+    }
+}
