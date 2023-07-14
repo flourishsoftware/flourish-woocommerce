@@ -10,7 +10,7 @@ This plugin allows users of the Flourish platform to seamlessly integrate items,
 
 ## 🔗 Helpful Links
 
-* Flourish Software: [Flourish](https://www.flourishsoftware.com/)
+* Flourish Software: [https://www.flourishsoftware.com](https://www.flourishsoftware.com/)
 * WordPress: [https://wordpress.org/](https://wordpress.org/)
 * WooCommerce: [https://woocommerce.com/](https://woocommerce.com/)
 
