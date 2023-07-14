@@ -6,7 +6,9 @@ This repository is to hold the PHP code that's utilized for the [Flourish](https
 
 Flourish is a Cannabis ERP that provides services across the United States for cultivation, manufacturing, distribution, and retail sales of cannabis.
 
-This plugin allows users of the Flourish platform to seamlessly integrate items, inventory, and orders into a flexible and powerful website for business to business, or business to consumer sales.
+This plugin allows users of the Flourish platform to seamlessly integrate items, inventory, customers, and orders into a flexible and powerful website for business to business, or business to consumer sales.
+
+We do this by leveraging the [Flourish External API](https://api-docs.flourishsoftware.com/).
 
 ## 🔗 Helpful Links
 
