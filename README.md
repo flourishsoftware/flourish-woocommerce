@@ -1,4 +1,4 @@
-# flourish-wordpress
+# flourish-woocommerce
 
 👋 Hello!
 
