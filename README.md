@@ -1,5 +1,7 @@
 # flourish-woocommerce
 
+<img src="./flourish-logo.png" alt="Flourish Logo" height="250px;" />
+
 👋 Hello!
 
 This repository is to hold the PHP code that's utilized for the [Flourish](https://www.flourishsoftware.com/) WooCommerce WordPress plugin.
