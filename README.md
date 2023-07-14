@@ -60,7 +60,6 @@ For everything to work, and to get webhooks rolling, you'll want to get a few th
     * Inventory Summary
 
 ## 🗂 Directory Structure
-
 ```
 .
 ├── assets
@@ -128,3 +127,20 @@ add_action('woocommerce_order_status_pending', [$this, 'handle_order_retail']);
 Where `woocommerce_order_status_pending` is the name of the hook we're waiting for, `$this` refers to the current object, and `handle_order_retail` is the function we want to fire when an order hits a status of pending.
 
 So, you'll see that there are numerous places where we're adding filters or actions too hook into various things occurring within the application or things being displayed / handled in the application as well.
+
+## 🪪 License
+
+Copyright (C) 2023 [Flourish Software](https://www.flourishsoftware.com)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see [https://www.gnu.org/licenses/](https://www.gnu.org/licenses/).
