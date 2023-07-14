@@ -8,13 +8,12 @@
  * Author URI: https://www.flourishsoftware.com/
  * Developer: Flourish Software
  * Developer URI: https://www.flourishsoftware.com/
+ * License: GPL v3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * WC requires at least: 2.2
  * WC tested up to: 2.3
  *
- * Copyright (C) Flourish Software - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
  * Written by ddrake@flourishsoftware.com, 2023
  */
 
