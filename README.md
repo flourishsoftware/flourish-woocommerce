@@ -1,5 +1,7 @@
 # flourish-woocommerce
 
+<img src="./flourish-logo.png" alt="Flourish Logo" height="250px;" />
+
 👋 Hello!
 
 This repository is to hold the PHP code that's utilized for the [Flourish](https://www.flourishsoftware.com/) WooCommerce WordPress plugin.
@@ -37,7 +39,7 @@ This repository is made up of a few important pieces that are for getting this r
 
 ## 💻 Developing Locally
 
-1. Checkout this repository: `git clone git@bitbucket.org:wmsight/flourish-wordpress.git`
+1. Checkout this repository: `git clone https://github.com/flourishsoftware/flourish-woocommerce.git`
 1. Go into the directory: `cd flourish-wordpress`
 1. Checkout the WordPress GitHub clone: `git clone https://github.com/WordPress/WordPress.git`
 1. Run the Docker container: `docker compose up`
