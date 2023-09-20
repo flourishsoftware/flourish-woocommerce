@@ -1,9 +1,9 @@
 <?php
  /**
  * Plugin Name: Flourish WooCommerce Plugin
- * Plugin URI: https://github.com/flourishsoftware/flourish-woocommerce/
+ * Plugin URI: http://www.flourishsoftware.com/woocommerce-extension/
  * Description: A WooCommerce plugin for your Flourish data.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: Flourish Software
  * Author URI: https://www.flourishsoftware.com/
  * Developer: Flourish Software
