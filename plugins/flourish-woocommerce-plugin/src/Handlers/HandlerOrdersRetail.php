@@ -86,11 +86,6 @@ class HandlerOrdersRetail
                 'notes' => $wc_order->get_customer_note(),
             ];
 
-            $order_notes = implode("\n\n", $wc_order->get_customer_order_notes());
-            if (strlen($order_notes)) {
-                $order['notes'] = $order_notes;
-            }
-
             $flourish_order_id = $flourish_api->create_retail_order($order);
             $wc_order->update_meta_data('flourish_order_id', $flourish_order_id);
             $wc_order->save();

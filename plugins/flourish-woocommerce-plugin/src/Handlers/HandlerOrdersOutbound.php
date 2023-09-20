@@ -67,13 +67,22 @@ class HandlerOrdersOutbound
                 $order_lines_array[] = $order_line;
             }
 
+            $notes = [];
+            if (strlen($wc_order->get_customer_note())) {
+                $note = new \StdClass();
+                $note->subject = "Customer Note from WooCommerce";
+                $note->note = $wc_order->get_customer_note();
+                $note->internal_only = false;
+                $notes[] = $note;
+            }
+
             // Now we have the flourish_customer_id, we can create the order
             $order = [
                 'original_order_id' => (string)$wc_order->get_id(),
                 'order_lines' => $order_lines_array,
                 'destination' => $destination,
                 'order_timestamp' => gmdate("Y-m-d\TH:i:s.v\Z"),
-                'notes' => $wc_order->get_customer_note(),
+                'notes' => $notes,
             ];
 
             $flourish_order_id = $flourish_api->create_outbound_order($order);
