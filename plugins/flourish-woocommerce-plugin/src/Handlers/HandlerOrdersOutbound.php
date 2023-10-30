@@ -76,7 +76,6 @@ class HandlerOrdersOutbound
                 $notes[] = $note;
             }
 
-            // Now we have the flourish_customer_id, we can create the order
             $order = [
                 'original_order_id' => (string)$wc_order->get_id(),
                 'order_lines' => $order_lines_array,
@@ -84,6 +83,22 @@ class HandlerOrdersOutbound
                 'order_timestamp' => gmdate("Y-m-d\TH:i:s.v\Z"),
                 'notes' => $notes,
             ];
+
+            $facility_config = $flourish_api->fetch_facility_config($facility_id);
+            if (empty($facility_config)) {
+                throw new \Exception("No facility config found for facility ID: " . $facility_id);
+            }
+
+            if ($facility_config['sales_rep_required_for_outbound']) {
+                $sales_rep_id = $this->existing_settings['sales_rep_id'];
+                if (!$sales_rep_id) {
+                    throw new \Exception("Sales rep is required for outbound orders for this facility");
+                }
+
+                $sales_rep = new \StdClass();
+                $sales_rep->id = $sales_rep_id;
+                $order['sales_rep'] = $sales_rep;
+            }
 
             $flourish_order_id = $flourish_api->create_outbound_order($order);
             $wc_order->update_meta_data('flourish_order_id', $flourish_order_id);

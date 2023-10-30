@@ -138,6 +138,43 @@ class FlourishAPI
         return $facilities;
     }
 
+    public function fetch_facility_config($facility_id)
+    {
+        $facility_config = false;
+
+        $api_url = $this->url . "/external/api/v1/facilities/{$facility_id}";
+
+        $headers = [
+            'Authorization: Basic ' . $this->auth_header,
+        ];
+
+        $ch = curl_init($api_url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception(curl_error($ch), curl_errno($ch));
+        }
+
+        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($http_return_code != 200) {
+            throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response.");
+        }
+
+        $response_data = json_decode($response, true);
+
+        if (isset($response_data['data']) && is_array($response_data['data'])) {
+            $facility_config = $response_data['data'];
+        } else {
+            throw new \Exception('Invalid API response format.');
+        }
+
+        return $facility_config;
+    }
+
     public function fetch_inventory($item_id)
     {
         $api_url = $this->url . "/external/api/v1/inventory/summary?item_id=$item_id";
@@ -365,5 +402,51 @@ class FlourishAPI
         }
 
         return $brands;
+    }
+
+    public function fetch_sales_reps()
+    {
+        $sales_reps = [];
+        $offset = 0;
+        $limit = self::API_LIMIT; 
+        $has_more_sales_reps = true;
+
+        while ($has_more_sales_reps) {
+            $api_url = $this->url . "/external/api/v1/sales-reps?offset={$offset}&limit={$limit}";
+
+            $headers = [
+                'Authorization: Basic ' . $this->auth_header,
+            ];
+
+            $ch = curl_init($api_url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            if ($response === false) {
+                throw new \Exception(curl_error($ch), curl_errno($ch));
+            }
+
+            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($http_return_code != 200) {
+                throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response.");
+            }
+
+            $response_data = json_decode($response, true);
+
+            if (isset($response_data['data']) && is_array($response_data['data'])) {
+                $sales_reps = array_merge($sales_reps, $response_data['data']);
+            } else {
+                throw new \Exception('Invalid API response format.');
+            }
+
+            $has_more_sales_reps = isset($response_data['meta']['next']) && !empty($response_data['meta']['next']);
+
+            $offset += $limit;
+        }
+
+        return $sales_reps;
     }
 }

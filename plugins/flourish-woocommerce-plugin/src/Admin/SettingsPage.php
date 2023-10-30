@@ -96,17 +96,53 @@ class SettingsPage
             }
         }
 
-        $setting_value = isset($this->existing_settings['facility_id']) ? $this->existing_settings['facility_id'] : '';
+        $facility_id = isset($this->existing_settings['facility_id']) ? $this->existing_settings['facility_id'] : '';
 
         add_settings_field(
             'facility_id',
             'Facility',
-            function() use ($setting_value, $facilities) {
-                $this->render_facility_id($setting_value, $facilities);
+            function() use ($facility_id, $facilities) {
+                $this->render_facility_id($facility_id, $facilities);
             },
             'flourish-woocommerce-plugin-settings',
             'flourish_woocommerce_plugin_section',
         );
+
+        if (strlen($facility_id)) {
+            // We need to grab whether this facility requires a sales rep or not
+            $facility_config = $this->get_facility_config($facility_id);
+
+            if (empty($this->existing_settings['username']) || empty($this->existing_settings['api_key']) || (empty($facility_config) || !$facility_config['sales_rep_required_for_outbound'])) {
+                $sales_reps = [];
+            } else {
+                try {
+                    $sales_reps = $this->get_sales_reps();
+                } catch (\Exception $e) {
+                    // Show a dismissable error message with the admin notice
+                    add_action('admin_notices', function() use ($e) {
+                        ?>
+                        <div class="notice notice-error is-dismissible">
+                            <p><?php echo $e->getMessage(); ?></p>
+                        </div>
+                        <?php
+                    });
+                }
+            }
+
+            if (count($sales_reps)) {
+                $setting_value = isset($this->existing_settings['sales_rep_id']) ? $this->existing_settings['sales_rep_id'] : '';
+
+                add_settings_field(
+                    'sales_rep_id',
+                    'Sales Rep',
+                    function() use ($setting_value, $sales_reps) {
+                        $this->render_sales_rep_id($setting_value, $sales_reps);
+                    },
+                    'flourish-woocommerce-plugin-settings',
+                    'flourish_woocommerce_plugin_section',
+                );
+            }
+        }
 
         // Add our radio button settings for Flourish order type
         $setting_value = isset($this->existing_settings['flourish_order_type']) ? $this->existing_settings['flourish_order_type'] : '';
@@ -173,6 +209,7 @@ class SettingsPage
         $sanitized_settings['api_key'] = !empty($settings['api_key']) ? sanitize_text_field($settings['api_key']) : '';
         $sanitized_settings['username'] = !empty($settings['username']) ? sanitize_text_field($settings['username']) : '';
         $sanitized_settings['facility_id'] = !empty($settings['facility_id']) ? sanitize_text_field($settings['facility_id']) : '';
+        $sanitized_settings['sales_rep_id'] = !empty($settings['sales_rep_id']) ? sanitize_text_field($settings['sales_rep_id']) : '';
         $sanitized_settings['webhook_key'] = !empty($settings['webhook_key']) ? sanitize_text_field($settings['webhook_key']) : '';
 
         // Default to retail
@@ -350,6 +387,24 @@ class SettingsPage
         <?php
     }
 
+    public function render_sales_rep_id($setting_value, $sales_reps)
+    {
+        $disabled = '';
+        $message = 'Select a sales rep for your orders';
+        if (!isset($this->existing_settings['username']) || !strlen($this->existing_settings['username']) || !isset($this->existing_settings['api_key']) || !strlen($this->existing_settings['api_key'])) {
+            $disabled = 'disabled';
+            $message = 'Provide your Username and API key to select a facility and see sales reps.';
+        } 
+        ?>
+        <select id="facility_id" name="flourish_woocommerce_plugin_settings[sales_rep_id]" <?php echo $disabled; ?> width="50px">
+            <option value=""><?php echo $message; ?></option>
+            <?php foreach ($sales_reps as $sales_rep) : ?>
+                <option value="<?php echo $sales_rep['sales_rep_id']; ?>" <?php selected($setting_value, $sales_rep['sales_rep_id']); ?>><?php echo $sales_rep['first_name'] . ' ' . $sales_rep['last_name']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php
+    }
+
     public function render_brands($filter_brands, $saved_brands, $brands) 
     {
         ?>
@@ -502,5 +557,29 @@ class SettingsPage
         $flourish_api = new FlourishAPI($username, $api_key, $url, $facility_id);
 
         return $flourish_api->fetch_brands();
+    }
+
+    public function get_sales_reps()
+    {
+        $api_key = isset($this->existing_settings['api_key']) ? $this->existing_settings['api_key'] : '';
+        $username = isset($this->existing_settings['username']) ? $this->existing_settings['username'] : '';
+        $url = isset($this->existing_settings['url']) ? $this->existing_settings['url'] : '';
+        $facility_id = isset($this->existing_settings['facility_id']) ? $this->existing_settings['facility_id'] : '';
+
+        $flourish_api = new FlourishAPI($username, $api_key, $url, $facility_id);
+
+        return $flourish_api->fetch_sales_reps();
+    }
+
+    public function get_facility_config($facility_id)
+    {
+        $api_key = isset($this->existing_settings['api_key']) ? $this->existing_settings['api_key'] : '';
+        $username = isset($this->existing_settings['username']) ? $this->existing_settings['username'] : '';
+        $url = isset($this->existing_settings['url']) ? $this->existing_settings['url'] : '';
+        $facility_id = isset($this->existing_settings['facility_id']) ? $this->existing_settings['facility_id'] : '';
+
+        $flourish_api = new FlourishAPI($username, $api_key, $url, $facility_id);
+
+        return $flourish_api->fetch_facility_config($facility_id);
     }
 }
