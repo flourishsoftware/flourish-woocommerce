@@ -3,7 +3,7 @@
  * Plugin Name: Flourish WooCommerce Plugin
  * Plugin URI: http://www.flourishsoftware.com/woocommerce-extension/
  * Description: A WooCommerce plugin for your Flourish data.
- * Version: 1.2.2
+ * Version: 1.2.3
  * Author: Flourish Software
  * Author URI: https://www.flourishsoftware.com/
  * License: GPLv3
@@ -11,11 +11,6 @@
  *
  * WC requires at least: 2.2
  * WC tested up to: 2.3
- *
- * Copyright (C) Flourish Software - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by ddrake@flourishsoftware.com, 2023
  */
 
 defined('ABSPATH') || exit;

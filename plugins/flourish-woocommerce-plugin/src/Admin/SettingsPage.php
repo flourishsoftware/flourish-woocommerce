@@ -21,25 +21,24 @@ class SettingsPage
     public function register_hooks()
     {
         // Get the settings page to show up in the admin menu
-        add_action('admin_menu', [$this, 'add_settings_page']);
-        add_action('admin_init', [$this, 'register_settings']);
+        add_action('admin_menu', function() {
+            $page_hook = add_options_page(
+                'Flourish WooCommerce Plugin Settings',
+                '🌱 Flourish',
+                'manage_options',
+                'flourish-woocommerce-plugin-settings',
+                [$this, 'render_settings_page']
+            );
+
+            add_action('load-' . $page_hook, [$this, 'register_settings']);
+        });
+
         add_filter('plugin_action_links_' . $this->plugin_basename, [$this, 'add_settings_link']);
 
         // Handling importing products button being pushed
         if (isset($_POST['action']) && $_POST['action'] === 'import_products') {
             add_action('admin_init', [$this, 'handle_import_products_form_submission']);
         }
-    }
-
-    public function add_settings_page()
-    {
-        add_options_page(
-            'Flourish WooCommerce Plugin Settings',
-            '🌱 Flourish',
-            'manage_options',
-            'flourish-woocommerce-plugin-settings',
-            [$this, 'render_settings_page']
-        );
     }
 
     public function register_settings()

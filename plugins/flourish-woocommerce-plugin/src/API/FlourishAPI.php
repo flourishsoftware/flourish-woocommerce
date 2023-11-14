@@ -42,13 +42,13 @@ class FlourishAPI
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             $response = curl_exec($ch);
+            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
             if ($response === false) {
                 throw new \Exception(curl_error($ch), curl_errno($ch));
             }
 
-            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_return_code != 200) {
                 throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response.");
             }
@@ -111,13 +111,13 @@ class FlourishAPI
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             $response = curl_exec($ch);
+            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
             if ($response === false) {
                 throw new \Exception(curl_error($ch), curl_errno($ch));
             }
 
-            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_return_code != 200) {
                 throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response.");
             }
@@ -153,13 +153,13 @@ class FlourishAPI
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception(curl_error($ch), curl_errno($ch));
         }
 
-        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($http_return_code != 200) {
             throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response.");
         }
@@ -189,13 +189,12 @@ class FlourishAPI
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception(curl_error($ch), curl_errno($ch));
         }
-
-        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($http_return_code != 200) {
             throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response");
@@ -222,13 +221,12 @@ class FlourishAPI
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception(curl_error($ch), curl_errno($ch));
         }
-
-        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($http_return_code != 200) {
             throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response");
@@ -252,13 +250,12 @@ class FlourishAPI
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($customer));
                 $response = curl_exec($ch);
+                $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
 
                 if ($response === false) {
                     throw new \Exception(curl_error($ch), curl_errno($ch));
                 }
-
-                $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
                 if ($http_return_code != 200) {
                     throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response");
@@ -295,13 +292,12 @@ class FlourishAPI
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($order));
         $response = curl_exec($ch);
+        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception(curl_error($ch), curl_errno($ch));
         }
-
-        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($http_return_code != 200) {
             throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response");
@@ -335,13 +331,12 @@ class FlourishAPI
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($order));
         $response = curl_exec($ch);
+        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception(curl_error($ch), curl_errno($ch));
         }
-
-        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($http_return_code != 200) {
             throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response");
@@ -377,13 +372,13 @@ class FlourishAPI
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             $response = curl_exec($ch);
+            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
             if ($response === false) {
                 throw new \Exception(curl_error($ch), curl_errno($ch));
             }
 
-            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_return_code != 200) {
                 throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response.");
             }
@@ -423,13 +418,13 @@ class FlourishAPI
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             $response = curl_exec($ch);
+            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
             if ($response === false) {
                 throw new \Exception(curl_error($ch), curl_errno($ch));
             }
 
-            $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_return_code != 200) {
                 throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response.");
             }
