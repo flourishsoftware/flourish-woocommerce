@@ -35,6 +35,15 @@ class SettingsPage
 
         add_filter('plugin_action_links_' . $this->plugin_basename, [$this, 'add_settings_link']);
 
+        add_action('admin_init', function() {
+            register_setting('flourish-woocommerce-plugin-settings-group', 'flourish_woocommerce_plugin_settings', [
+                'type' => 'array',
+                'sanitize_callback' => [$this, 'sanitize_settings'],
+                'default' => [],
+                'show_in_rest' => false,
+            ]);
+        });
+
         // Handling importing products button being pushed
         if (isset($_POST['action']) && $_POST['action'] === 'import_products') {
             add_action('admin_init', [$this, 'handle_import_products_form_submission']);
@@ -43,13 +52,6 @@ class SettingsPage
 
     public function register_settings()
     {
-        register_setting('flourish-woocommerce-plugin-settings-group', 'flourish_woocommerce_plugin_settings', [
-            'type' => 'array',
-            'sanitize_callback' => [$this, 'sanitize_settings'],
-            'default' => [],
-            'show_in_rest' => false,
-        ]);
-
         add_settings_section(
             'flourish_woocommerce_plugin_section', 
             '⚙️ Settings from Flourish',
