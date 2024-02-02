@@ -6,7 +6,7 @@
 
 This repository is to hold the PHP code that's utilized for the [Flourish](https://www.flourishsoftware.com/) WooCommerce WordPress plugin.
 
-Flourish is a software platform that provides services across the United States for cultivation, manufacturing, distribution, and retail sales of cannabis.
+Flourish is a vertical seed-to-sale software platform that provides services across the United States for cultivation, manufacturing, distribution, and retail sales of cannabis.
 
 This plugin allows users of the Flourish platform to seamlessly integrate items, inventory, customers, and orders into a flexible and powerful website for business to business, or business to consumer sales.
 
