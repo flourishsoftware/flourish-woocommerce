@@ -35,7 +35,6 @@ This repository is made up of a few important pieces that are for getting this r
 
 * `docker-compose.yml` - the Docker file necessary for running things locally
 * `plugins/flourish-woocommerce-plugin` - the actual plugin code
-* `WordPress` - a checkout of the WordPress codebase that you will need to perform
 
 ## 💻 Developing Locally
 
@@ -134,7 +133,7 @@ So, you'll see that there are numerous places where we're adding filters or acti
 
 ## 🪪 License
 
-Copyright (C) 2023 [Flourish Software](https://www.flourishsoftware.com)
+Copyright (C) 2023-2024 [Flourish Software](https://www.flourishsoftware.com)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
