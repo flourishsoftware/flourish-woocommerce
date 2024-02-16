@@ -6,7 +6,7 @@
 
 This repository is to hold the PHP code that's utilized for the [Flourish](https://www.flourishsoftware.com/) WooCommerce WordPress plugin.
 
-Flourish is a software platform that provides services across the United States for cultivation, manufacturing, distribution, and retail sales of cannabis.
+Flourish is a vertical seed-to-sale software platform that provides services across the United States for cultivation, manufacturing, distribution, and retail sales of cannabis.
 
 This plugin allows users of the Flourish platform to seamlessly integrate items, inventory, customers, and orders into a flexible and powerful website for business to business, or business to consumer sales.
 
@@ -35,7 +35,6 @@ This repository is made up of a few important pieces that are for getting this r
 
 * `docker-compose.yml` - the Docker file necessary for running things locally
 * `plugins/flourish-woocommerce-plugin` - the actual plugin code
-* `WordPress` - a checkout of the WordPress codebase that you will need to perform
 
 ## 💻 Developing Locally
 
@@ -134,7 +133,7 @@ So, you'll see that there are numerous places where we're adding filters or acti
 
 ## 🪪 License
 
-Copyright (C) 2023 [Flourish Software](https://www.flourishsoftware.com)
+Copyright (C) 2023-2024 [Flourish Software](https://www.flourishsoftware.com)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
