@@ -284,7 +284,10 @@ class SettingsPage
         <input type="radio" id="flourish_order_type_outbound" name="flourish_woocommerce_plugin_settings[flourish_order_type]" value="outbound" <?php checked($setting_value, 'outbound'); ?> />
         <label for="flourish_order_type_outbound">Outbound</label>
         <p class="description">Orders will be created in Flourish as outbound orders from destinations.</p>
-        <ul><li>• License will be required and collected from the destination</li></ul>
+        <ul>
+            <li>• License will be required and collected from the destination</li>
+            <li>• Used in support of the <a href="https://docs.flourishsoftware.com/article/1ceu43yo4p-before-setting-up-woo-commerce-integration">Flourish Wholesale Portal</a> experience for orders and workflow</li>
+        </ul>
         <?php
     }
 

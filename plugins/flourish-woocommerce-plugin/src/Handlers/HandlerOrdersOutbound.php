@@ -59,6 +59,12 @@ class HandlerOrdersOutbound
                 'external_id' => $wc_order->get_user_id(),
             ];
 
+            // Lookup the destination in Flourish by license number and use the ID of it if it exists
+            $existing_destination = $flourish_api->fetch_destination_by_license($destination['license_number']);
+            if ($existing_destination) {
+                $destination['id'] = $existing_destination['id'];
+            }
+
             $order_lines_array = [];
             foreach ($wc_order->get_items() as $item) {
                 $order_line = new \StdClass();

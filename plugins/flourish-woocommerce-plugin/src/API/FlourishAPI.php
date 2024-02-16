@@ -444,4 +444,41 @@ class FlourishAPI
 
         return $sales_reps;
     }
+
+    public function fetch_destination_by_license($license)
+    {
+        $api_url = $this->url . "/external/api/v1/destinations?license_number=" . urlencode($license);
+
+        $headers = [
+            'Authorization: Basic ' . $this->auth_header,
+        ];
+
+        $ch = curl_init($api_url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        $http_return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception(curl_error($ch), curl_errno($ch));
+        }
+
+        if ($http_return_code != 200) {
+            throw new \Exception("Did not get 200 response from API. Got: $http_return_code. Response: $response");
+        }
+
+        $response_data = json_decode($response, true);
+
+        if (isset($response_data['data']) && is_array($response_data['data'])) {
+            if (count($response_data['data'])) {
+                return $response_data['data'][0];
+            }
+        } else {
+            throw new \Exception('Invalid API response format.');
+        }
+
+        return false;
+    }
 }

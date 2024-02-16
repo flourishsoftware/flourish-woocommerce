@@ -1,9 +1,9 @@
 <?php
  /**
  * Plugin Name: Flourish WooCommerce Plugin
- * Plugin URI: http://www.flourishsoftware.com/woocommerce-extension/
+ * Plugin URI: https://docs.flourishsoftware.com/article/yow6wworay-flourish-woocommerce-plugin-for-wordpress
  * Description: A WooCommerce plugin for your Flourish data.
- * Version: 1.2.4
+ * Version: 1.3.1
  * Author: Flourish Software
  * Author URI: https://www.flourishsoftware.com/
  * License: GPLv3
@@ -16,5 +16,16 @@
 defined('ABSPATH') || exit;
 
 require_once __DIR__ . '/vendor/autoload.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+	'https://github.com/flourishsoftware/flourish-woocommerce/',
+	__FILE__,
+	'flourish-woocommerce-plugin'
+);
+
+//Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('main');
 
 FlourishWooCommercePlugin\FlourishWooCommercePlugin::get_instance()->init(plugin_basename(__FILE__));

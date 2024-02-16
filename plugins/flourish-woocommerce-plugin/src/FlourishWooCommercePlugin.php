@@ -11,6 +11,7 @@ use FlourishWooCommercePlugin\CustomFields\FlourishOrderID;
 use FlourishWooCommercePlugin\CustomFields\License;
 use FlourishWooCommercePlugin\Handlers\HandlerOrdersOutbound;
 use FlourishWooCommercePlugin\Handlers\HandlerOrdersRetail;
+use FlourishWooCommercePlugin\Handlers\HandlerOrdersSyncNow;
 
 class FlourishWooCommercePlugin
 {
@@ -63,6 +64,10 @@ class FlourishWooCommercePlugin
         // Register the Flourish ID field on the order page.
         $custom_field_flourish_id = new FlourishOrderID();
         $custom_field_flourish_id->register_hooks();
+
+        // Register the custom order handler to sync orders on demand.
+        $handler_orders_sync_now = new HandlerOrdersSyncNow($existing_settings);
+        $handler_orders_sync_now->register_hooks();
 
         // Add our JavaScript
         add_action('admin_enqueue_scripts', function() {
