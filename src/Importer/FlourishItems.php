@@ -88,6 +88,8 @@ class FlourishItems
                 }
             }
 
+            do_action('flourish_item_imported', $product, $product_id);
+
             if ($product_id > 0) {
                 $imported_count++;
             }

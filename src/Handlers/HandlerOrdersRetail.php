@@ -97,6 +97,8 @@ class HandlerOrdersRetail
             $flourish_order_id = $flourish_api->create_retail_order($order);
             $wc_order->update_meta_data('flourish_order_id', $flourish_order_id);
             $wc_order->save();
+
+            do_action('flourish_retail_order_created', $wc_order, $flourish_order_id);
         } catch (\Exception $e) {
             wc_get_logger()->error("Error creating retail order: " . $e->getMessage(), ['source' => 'flourish-woocommerce-plugin']);
         }
