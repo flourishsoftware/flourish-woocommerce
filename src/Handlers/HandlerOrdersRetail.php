@@ -68,13 +68,21 @@ class HandlerOrdersRetail
 
             $order_lines_array = [];
             foreach ($wc_order->get_items() as $item) {
-                $order_line = new \StdClass();
                 $product = wc_get_product($item->get_product_id());
-                $order_line->sku = $product->get_sku();
-                $order_line->order_qty = $item->get_quantity();
-                // Use get_total instead of price to account for discounts
-                $order_line->unit_price = (float)$item->get_total();
-                $order_lines_array[] = $order_line;
+
+                if (strlen($product->get_sku()) {
+                    $order_line = new \StdClass();
+                    $order_line->sku = $product->get_sku();
+                    $order_line->order_qty = $item->get_quantity();
+                    // Use get_total instead of price to account for discounts
+                    $order_line->unit_price = (float)$item->get_total();
+                    $order_lines_array[] = $order_line;
+                }
+            }
+
+            if (count($order_lines_array) == 0) {
+                wc_get_logger()->error("No order lines found for order " . $wc_order->get_id(), ['source' => 'flourish-woocommerce-plugin']);
+                return;
             }
 
             // Now we have the flourish_customer_id, we can create the order

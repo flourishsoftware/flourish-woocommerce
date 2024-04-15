@@ -26,6 +26,11 @@ class HandlerOrdersOutbound
         try {
             $wc_order = wc_get_order($order_id);
 
+            if ($wc_order->get_meta('flourish_order_id')) {
+                // We've already created this order in Flourish, so we don't need to do anything.
+                return;
+            }
+
             // Retrieve the saved settings.
             $api_key = isset($this->existing_settings['api_key']) ? $this->existing_settings['api_key'] : '';
             $username = isset($this->existing_settings['username']) ? $this->existing_settings['username'] : '';
@@ -67,10 +72,18 @@ class HandlerOrdersOutbound
 
             $order_lines_array = [];
             foreach ($wc_order->get_items() as $item) {
-                $order_line = new \StdClass();
-                $order_line->sku = wc_get_product($item->get_product_id())->get_sku();
-                $order_line->order_qty = $item->get_quantity();
-                $order_lines_array[] = $order_line;
+                $product = wc_get_product($item->get_product_id());
+                if (strlen($product->get_sku())) {
+                    $order_line = new \StdClass();
+                    $order_line->sku = $product->get_sku();
+                    $order_line->order_qty = $item->get_quantity();
+                    $order_lines_array[] = $order_line;
+                }
+            }
+
+            if (count($order_lines_array) == 0) {
+                wc_get_logger()->error("No order lines found for order " . $wc_order->get_id(), ['source' => 'flourish-woocommerce-plugin']);
+                return;
             }
 
             $notes = [];
