@@ -122,6 +122,8 @@ class HandlerOrdersOutbound
             $flourish_order_id = $flourish_api->create_outbound_order($order);
             $wc_order->update_meta_data('flourish_order_id', $flourish_order_id);
             $wc_order->save();
+
+            do_action('flourish_order_outbound_created', $wc_order, $flourish_order_id);
         } catch (\Exception $e) {
             // Set an admin notice to show the error message.
             wc_get_logger()->error(
