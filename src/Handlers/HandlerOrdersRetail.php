@@ -70,7 +70,7 @@ class HandlerOrdersRetail
             foreach ($wc_order->get_items() as $item) {
                 $product = wc_get_product($item->get_product_id());
 
-                if (strlen($product->get_sku()) {
+                if (strlen($product->get_sku())) {
                     $order_line = new \StdClass();
                     $order_line->sku = $product->get_sku();
                     $order_line->order_qty = $item->get_quantity();
