@@ -55,6 +55,30 @@ class HandlerOrdersRetail
             $address_array = [];
             $address_array[] = $address_object;
 
+            // Retrieve and format DOB
+            $raw_dob = (isset($_POST['dob']) && strlen($_POST['dob'])) ? $_POST['dob'] : get_user_meta($wc_order->get_user_id(), 'dob', true);
+            $dob = null;
+            
+            if ($raw_dob) {
+                $formats = [
+                    'F d, Y',    // e.g., October 11, 1983
+                    'Y-m-d',     // e.g., 1983-10-11
+                    'm/d/Y',     // e.g., 10/11/1983
+                ];
+            
+                foreach ($formats as $format) {
+                    $dob_datetime = \DateTime::createFromFormat($format, $raw_dob);
+                    if ($dob_datetime) {
+                        $dob = $dob_datetime->format('Y-m-d'); // Format DOB as YYYY-MM-DD
+                        break;
+                    }
+                }
+            
+                if (!$dob) {
+                    wc_get_logger()->error("Invalid DOB format for order " . $wc_order->get_id() . ": " . $raw_dob, ['source' => 'flourish-woocommerce-plugin']);
+                }
+            }            
+
             $customer = [
                 'first_name' => $wc_order->get_billing_first_name(),
                 'last_name' => $wc_order->get_billing_last_name(),
