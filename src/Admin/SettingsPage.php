@@ -146,30 +146,17 @@ class SettingsPage
         }
 
         // Add our radio button settings for Flourish order type
-        $order_type_value = isset($this->existing_settings['flourish_order_type']) ? $this->existing_settings['flourish_order_type'] : '';
+        $setting_value = isset($this->existing_settings['flourish_order_type']) ? $this->existing_settings['flourish_order_type'] : '';
 
         add_settings_field(
             'flourish_order_type',
             'Order Type',
-            function() use ($order_type_value) {
-                $this->render_flourish_order_type($order_type_value);
+            function() use ($setting_value) {
+                $this->render_flourish_order_type($setting_value);
             },
             'flourish-woocommerce-plugin-settings',
             'flourish_woocommerce_plugin_section',
         );
-
-        // Add settings for Retail Order Fulfillment type if order type is retail
-        if ($order_type_value === 'retail') {
-            add_settings_field(
-                'fulfillment_type',
-                'Fulfillment Type',
-                function() use ($this->existing_settings) {
-                    $this->render_fulfillment_type_field($this->existing_settings);
-                },
-                'flourish-woocommerce-plugin-settings',
-                'flourish_woocommerce_plugin_section'
-            );
-        }
 
         $item_sync_options = isset($this->existing_settings['item_sync_options']) ? $this->existing_settings['item_sync_options'] : [];
 
@@ -182,30 +169,6 @@ class SettingsPage
             'flourish-woocommerce-plugin-settings',
             'flourish_woocommerce_plugin_section',
         );
-
-        // Add settings and a function for Retail Order Fulfillment type
-        add_settings_field(
-            'fulfillment_type',
-            'Fulfillment Type',
-            function() use ($existing_settings) {
-                $this->render_fulfillment_type_field($existing_settings);
-            },
-            'flourish-woocommerce-plugin-settings',
-            'flourish_woocommerce_plugin_section'
-        );
-        
-        public function render_fulfillment_type_field($existing_settings)
-        {
-            $fulfillment_type = isset($existing_settings['fulfillment_type']) ? $existing_settings['fulfillment_type'] : 'pickup';
-            ?>
-            <select id="fulfillment_type" name="flourish_woocommerce_plugin_settings[fulfillment_type]">
-                <option value="pickup" <?php selected($fulfillment_type, 'pickup'); ?>>Pickup</option>
-                <option value="in-store" <?php selected($fulfillment_type, 'in-store'); ?>>In-Store</option>
-                <option value="delivery" <?php selected($fulfillment_type, 'delivery'); ?>>Delivery</option>
-            </select>
-            <p class="description">Default fulfillment type for orders synced with Flourish.</p>
-            <?php
-        }
 
         // Get our brands
         if (empty($this->existing_settings['username']) || empty($this->existing_settings['api_key'])) {
@@ -252,9 +215,6 @@ class SettingsPage
 
         // Default to retail
         $sanitized_settings['flourish_order_type'] = !empty($settings['flourish_order_type']) ? sanitize_text_field($settings['flourish_order_type']) : 'retail';
-
-        // Default to pickup for retail orders fulfillment type
-        $sanitized_settings['fulfillment_type'] = !empty($settings['fulfillment_type']) ? sanitize_text_field($settings['fulfillment_type']) : 'pickup';
 
         // Default to production API
         $sanitized_settings['url'] = !empty($settings['url']) ? esc_url_raw($settings['url']) : 'https://app.flourishsoftware.com';
