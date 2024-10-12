@@ -130,7 +130,8 @@ class HandlerOrdersRetail
 
     public function require_company_field($fields)
     {
-        $fields['company']['required'] = true;
+        // We don't need the company field for retail orders
+        $fields['company']['required'] = false;
         return $fields;
     }
 }
