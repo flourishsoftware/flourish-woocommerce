@@ -98,8 +98,8 @@ class HandlerOrdersRetail
                     $order_line = new \StdClass();
                     $order_line->sku = $product->get_sku();
                     $order_line->order_qty = $item->get_quantity();
-                    // Use get_total instead of price to account for discounts but we need to convert to unit price
-                    $order_line->unit_price = (float)$item->get_subtotal() / $item->get_quantity();
+                    // Use get_total instead of price to account for discounts
+                    $order_line->unit_price = (float)$item->get_total();
                     $order_lines_array[] = $order_line;
                 }
             }
