@@ -55,6 +55,40 @@ class HandlerOrdersRetail
             $address_array = [];
             $address_array[] = $address_object;
 
+            //Use WooCommerce Shipping Address as Delivery Address
+            $delivery_address = new \StdClass();
+            $delivery_address->address_line_1 = $wc_order->get_shipping_address_1();
+            $delivery_address->address_line_2 = $wc_order->get_shipping_address_2();
+            $delivery_address->city = $wc_order->get_shipping_city();
+            $delivery_address->state = $wc_order->get_shipping_state();
+            $delivery_address->postcode = $wc_order->get_shipping_postcode();
+            $delivery_address->country = $wc_order->get_shipping_country();
+            $delivery_address->type = 'delivery';
+
+            // Retrieve and format DOB
+            $raw_dob = (isset($_POST['dob']) && strlen($_POST['dob'])) ? $_POST['dob'] : get_user_meta($wc_order->get_user_id(), 'dob', true);
+            $dob = null;
+            
+            if ($raw_dob) {
+                $formats = [
+                    'F d, Y',    // e.g., October 11, 1983
+                    'Y-m-d',     // e.g., 1983-10-11
+                    'm/d/Y',     // e.g., 10/11/1983
+                ];
+            
+                foreach ($formats as $format) {
+                    $dob_datetime = \DateTime::createFromFormat($format, $raw_dob);
+                    if ($dob_datetime) {
+                        $dob = $dob_datetime->format('Y-m-d'); // Format DOB as YYYY-MM-DD
+                        break;
+                    }
+                }
+            
+                if (!$dob) {
+                    wc_get_logger()->error("Invalid DOB format for order " . $wc_order->get_id() . ": " . $raw_dob, ['source' => 'flourish-woocommerce-plugin']);
+                }
+            }
+
             $customer = [
                 'first_name' => $wc_order->get_billing_first_name(),
                 'last_name' => $wc_order->get_billing_last_name(),
@@ -74,8 +108,8 @@ class HandlerOrdersRetail
                     $order_line = new \StdClass();
                     $order_line->sku = $product->get_sku();
                     $order_line->order_qty = $item->get_quantity();
-                    // Use get_total instead of price to account for discounts
-                    $order_line->unit_price = (float)$item->get_total();
+                    // Use get_total instead of price to account for discounts but we need to convert to unit price
+                    $order_line->unit_price = (float)$item->get_total() / $item->get_quantity();
                     $order_lines_array[] = $order_line;
                 }
             }
@@ -85,11 +119,12 @@ class HandlerOrdersRetail
                 return;
             }
 
-            // Now we have the flourish_customer_id, we can create the order
+            // Now we have the flourish_customer_id, we can create the order. Updated to post a Delivery Order. 
             $order = [
                 'original_order_id' => (string)$wc_order->get_id(),
                 'customer_id' => $customer['flourish_customer_id'],
-                'fulfillment_type' => 'pickup',
+                'delivery_address' => $delivery_address,
+                'fulfillment_type' => 'delivery',
                 'order_lines' => $order_lines_array,
                 'notes' => $wc_order->get_customer_note(),
             ];
@@ -106,7 +141,8 @@ class HandlerOrdersRetail
 
     public function require_company_field($fields)
     {
-        $fields['company']['required'] = true;
+        // We don't need the company field for retail orders
+        $fields['company']['required'] = false;
         return $fields;
     }
 }

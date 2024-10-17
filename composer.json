@@ -5,8 +5,8 @@
     "license": "Copyright",
     "authors": [
         {
-            "name": "David Drake",
-            "email": "ddrake@flourishsoftware.com"
+            "name": "Flourish Software",
+            "email": "info@flourishsoftware.com"
         }
     ],
     "autoload": {
